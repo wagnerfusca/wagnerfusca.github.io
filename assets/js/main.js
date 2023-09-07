@@ -168,6 +168,30 @@
       }, true);
     }
 
+    let contentContainer = select('.content-container');
+    if (contentContainer) {
+      let contentIsotope = new Isotope(contentContainer, {
+        itemSelector: '.content-item',
+        layoutMode: 'fitRows'
+      });
+    let contentFilters = select('#content-flters li', true);
+
+      on('click', '#content-flters li', function(e) {
+        e.preventDefault();
+        contentFilters.forEach(function(el) {
+          el.classList.remove('filter-active');
+        });
+        this.classList.add('filter-active');
+
+        contentIsotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        contentIsotope.on('arrangeComplete', function() {
+          AOS.refresh()
+        });
+      }, true);
+    }
+
   });
 
   /**
